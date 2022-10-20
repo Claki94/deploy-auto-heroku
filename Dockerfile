@@ -1,5 +1,4 @@
 FROM node:16-alpine AS base
-ENV STATIC_FILES_PATH=./public
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 
@@ -11,6 +10,7 @@ RUN npm run build
 
 # Release
 FROM base as release
+ENV STATIC_FILES_PATH=./public
 COPY --from=build-front /usr/app/dist $STATIC_FILES_PATH
 COPY ./server/package.json ./
 COPY ./server/package-lock.json ./
